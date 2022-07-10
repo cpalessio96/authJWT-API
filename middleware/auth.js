@@ -18,7 +18,7 @@ const checkExpiredToken = async ({ email, createdAt }) => {
     name: "lastDateTokenValid",
   });
   const userInvalidate = await BlackListUser.findOne({
-    email: decoded.email,
+    email,
   });
   const expired = dateToken && dateToken.expiredTimestamp > createdAt;
   const blackListed = !!userInvalidate;
