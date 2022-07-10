@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "./model/user.js";
+import User from "../../model/user.js";
 
 const regexCheckEmail =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -51,13 +51,13 @@ const validateRequest = async ({ firstName, lastName, email, password }) => {
  * Salva l'utente, crea il token e torna l'oggetto utente contente anche il token
  * Crea l'utente con il ruolo di default: "member"
  *
- * @param {String} firstName
- * @param {String} lastName
- * @param {String} email
- * @param {String} password
+ * @param {String} param.firstName
+ * @param {String} param.lastName
+ * @param {String} param.email
+ * @param {String} param.password
  * @returns {Object}
  */
-const saveUser = async (firstName, lastName, email, password) => {
+const saveUser = async ({ firstName, lastName, email, password }) => {
   // encrypt password utente
   const encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -65,32 +65,45 @@ const saveUser = async (firstName, lastName, email, password) => {
   const user = await User.create({
     firstName,
     lastName,
-    email: sanitizedEmail,
+    email,
     password: encryptedPassword,
     role: "member", // questo è il ruolo di default
   });
 
   // Creazione token
-  const token = jwt.sign({ user_id: user._id, email }, process.env.TOKEN_KEY, {
-    expiresIn: "2h",
-  });
+  const token = jwt.sign(
+    { userId: user._id, email, createdAt: Date.now() },
+    process.env.TOKEN_KEY,
+    {
+      expiresIn: "2h",
+    }
+  );
+
+  user.token = token;
 
   return {
-    ...user,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.lastName,
     token,
   };
 };
 
 /**
  * funzione per la registrazione dell'utente
- * @param {String} firstName
- * @param {String} lastName
- * @param {String} email
- * @param {String} password
+ * @param {String} param.firstName
+ * @param {String} param.lastName
+ * @param {String} param.email
+ * @param {String} param.password
  * @returns {Object}
  */
-const registerUser = async (firstName, lastName, email, password) => {
-  const sanitizedEmail = String(email).toLowerCase();
+export const registerUser = async ({
+  firstName,
+  lastName,
+  email,
+  password,
+}) => {
+  const sanitizedEmail = email.toLowerCase();
 
   const { success, code, message } = await validateRequest({
     firstName,
@@ -106,7 +119,12 @@ const registerUser = async (firstName, lastName, email, password) => {
     };
   }
 
-  const user = await saveUser();
+  const user = await saveUser({
+    firstName,
+    lastName,
+    email: sanitizedEmail,
+    password,
+  });
 
   return {
     code: 201,
