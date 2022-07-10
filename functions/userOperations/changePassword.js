@@ -21,7 +21,7 @@ export const changePassword = async ({ email, newPassword, oldPassword }) => {
 
   const { success } = await checkCredentials({
     email: sanitizedEmail,
-    password,
+    password: oldPassword,
   });
 
   if (!success) {
