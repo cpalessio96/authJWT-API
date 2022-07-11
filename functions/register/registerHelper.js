@@ -84,7 +84,7 @@ const saveUser = async ({ firstName, lastName, email, password }) => {
   return {
     firstName: user.firstName,
     lastName: user.lastName,
-    email: user.lastName,
+    email: user.email,
     token,
   };
 };
