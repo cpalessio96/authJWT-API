@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest -i --coverage",
     "eslint": "eslint ./"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^28.1.2",
     "nodemon": "^2.0.19"
   }
 }
