@@ -22,7 +22,7 @@ const deleteUserFromBacklist = async (email) => {
  * @returns {Object} code e json
  */
 export const loginUser = async ({ email, password }) => {
-  const sanitizedEmail = email.toLowerCase();
+  const sanitizedEmail = email?.toLowerCase();
   // Validate user input
   if (!sanitizedEmail || !password) {
     return {
@@ -60,7 +60,7 @@ export const loginUser = async ({ email, password }) => {
       user: {
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.lastName,
+        email: user.email,
         token,
       },
     },
