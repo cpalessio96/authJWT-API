@@ -10,7 +10,7 @@ import { checkCredentials } from "../checkCredentials/helper.js";
  * @returns {Object} code e json
  */
 export const changePassword = async ({ email, newPassword, oldPassword }) => {
-  const sanitizedEmail = email.toLowerCase();
+  const sanitizedEmail = email?.toLowerCase();
   // Validate user input
   if (!sanitizedEmail || !newPassword || !oldPassword) {
     return {
