@@ -1,6 +1,5 @@
 /**
- * Verifica che l'utente esiste, verifica la password e crea il token.
- * Infine torna il code e l'utente
+ * Funzione per tornare i dati utente
  * @param {String} param.email
  * @param {String} param.password
  * @returns {Object} code e json
