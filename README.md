@@ -5,7 +5,8 @@ Sistema di autenticazione e autorizzazione con jwt
 Eseguire il clone del repository ed:
 - installare nodejs e mongodb
 - rinominare il file .env.example in .env popolandolo con i dati necessari
-- eseguire ```npm ci```
+- eseguire ```npm ci``` per installare le dipendenze
+- avviare il server con il comando ```npm run start```
 
 ## Eseguire i test senza installazione
 Dopo aver eseguito ```npm ci``` installando tutte le librerie, sia di produzione che di dev:
